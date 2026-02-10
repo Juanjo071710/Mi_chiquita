@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Para El Amor De Mi Vida❤️</title>
+
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg,#ff9a9e,#fad0c4);
+      color:#222;
+    }
+    .wrap{max-width:820px;margin:auto;padding:20px;}
+    .card{
+      background:#fff;
+      border-radius:22px;
+      padding:22px;
+      text-align:center;
+      box-shadow:0 12px 35px rgba(0,0,0,.18);
+    }
+    h1{margin:0 0 8px;}
+    p{margin:0 0 16px;line-height:1.4}
+
+    /* Intro */
+    .intro{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      padding:18px 10px;
+    }
+    .big{
+      font-size:28px;
+      font-weight:800;
+    }
+    .sub{opacity:.8}
+    .btn{
+      margin-top:10px;
+      background:#ff4d6d;
+      color:white;
+      border:none;
+      padding:14px 18px;
+      border-radius:14px;
+      font-size:16px;
+      cursor:pointer;
+      width:100%;
+      max-width:320px;
+    }
+
+    /* Galería */
+    .hidden{display:none;}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+      justify-items:center;
+      margin-top:10px;
+    }
+    @media (min-width:720px){
+      .grid{grid-template-columns:repeat(4,1fr);}
+    }
+    .photo{
+      width:100%;
+      max-width:260px;
+      height:200px;
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 10px 22px rgba(0,0,0,.18);
+      transform: translateY(10px);
+      opacity:0;
+      transition: all .6s ease;
+      background:#f6f6f6;
+      cursor:pointer;
+      position:relative;
+    }
+    .photo.show{
+      transform: translateY(0);
+      opacity:1;
+    }
+    .photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .tap{
+      font-size:12px;
+      opacity:.7;
+      margin-top:8px;
+    }
+
+    /* Mensaje */
+    .msg{
+      margin-top:16px;
+      font-size:18px;
+      font-weight:700;
+    }
+
+    /* Visor grande */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.72);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:10;
+    }
+    .overlay img{
+      max-width:95vw;
+      max-height:85vh;
+      border-radius:18px;
+      box-shadow:0 18px 50px rgba(0,0,0,.35);
+    }
+
+    /* corazoncito arriba */
+    .heart{
+      font-size:34px;
+      animation: pop 1.2s ease-in-out infinite;
+    }
+    @keyframes pop{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.12)}
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="card">
+
+    <!-- INTRO -->
+    <div class="intro" id="intro">
+      <div class="heart">❤️</div>
+      <div class="big">MI AMOR…</div>
+      <div class="sub">tengo algo especial para usted 💌</div>
+      <button class="btn" onclick="empezar()">Abrir sorpresa</button>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div id="contenido" class="hidden">
+      <h1>Mi Chiquita❤️</h1>
+      <p>Gracias por estar conmigo. Mire esas fotitos hermosas…🙈</p>
+
+      <div class="grid" id="grid">
+        <div class="photo"><img src="foto1.jpg" alt="Nosotros 1"></div>
+        <div class="photo"><img src="foto2.jpg" alt="Nosotros 2"></div>
+        <div class="photo"><img src="foto3.jpg" alt="Nosotros 3"></div>
+        <div class="photo"><img src="foto4.jpg" alt="Nosotros 4"></div>
+        <div class="photo"><img src="foto5.jpg" alt="Nosotros 4"></div>
+        <div class="photo"><img src="foto6.jpg" alt="Nosotros 4"></div>
+        <div class="photo"><img src="foto7.jpg" alt="Nosotros 4"></div>
+        <div class="photo"><img src="foto8.jpg" alt="Nosotros 4"></div>
+      </div>
+
+      <div class="tap">Tip: toca una foto para verla grande </div>
+
+      <button class="btn" style="margin-top:14px" onclick="mostrarMensaje()">Leer mi mensaje 💘</button>
+      <div class="msg" id="mensaje"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Visor -->
+<div class="overlay" id="overlay" onclick="cerrar()">
+  <img id="imgGrande" src="" alt="foto grande">
+</div>
+
+<script>
+  function vibrar(ms=70){
+    // Vibra en la mayoría de Android / algunos navegadores si hay interacción del usuario.
+    if (navigator.vibrate) navigator.vibrate(ms);
+  }
+
+  function empezar(){
+    vibrar(60);
+    document.getElementById("intro").classList.add("hidden");
+    const contenido = document.getElementById("contenido");
+    contenido.classList.remove("hidden");
+
+    // Mostrar fotos una por una
+    const fotos = document.querySelectorAll(".photo");
+    fotos.forEach((card, i) => {
+      setTimeout(() => card.classList.add("show"), 350 + i*420);
+    });
+
+    // Click en foto => vibrar + abrir grande
+    fotos.forEach(card=>{
+      card.addEventListener("click", ()=>{
+        vibrar(90);
+        const img = card.querySelector("img");
+        document.getElementById("imgGrande").src = img.src;
+        document.getElementById("overlay").style.display = "flex";
+      });
+    });
+  }
+
+  function cerrar(){
+    document.getElementById("overlay").style.display = "none";
+  }
+
+  function mostrarMensaje(){
+    vibrar(70);
+    document.getElementById("mensaje").innerHTML =
+      "Mi Amor, con usted todo se siente más bonito 💕<br><br>" +
+      "Gracias por su cariño, por su tiempo y por aguantar a este muchacho tan insorportable jajaja, creame que dia tras dia me hace muy feliz. " +
+      "Quiero seguir creando muchos recuerdos bonitos con usted.🫶 " +
+      "<br><br>La amo muchísimo mi pequeñita hermosa. 🌹❤️";
+  }
+</script>
+
+</body>
+</html>
